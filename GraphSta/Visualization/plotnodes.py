@@ -13,6 +13,6 @@ def plot_nodes_attr(graph,attr):
         att = graph.nodes[i][attr]
         dis[att] += 1
     x = list(range(max(fq) + 1))
-    plt.plot(x,dis,"o-")
+    plt.plot(x,dis,"-")
     plt.show()
     return

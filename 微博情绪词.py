@@ -1,12 +1,12 @@
 import datetime
 import math
-
+import pyecharts
 import numpy as np
 import jieba
 import pandas as pd
 from harvesttext import HarvestText
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdate
+
 
 
 #读取微博评论并添加列表
@@ -126,7 +126,10 @@ def dis_plot(df1,emo):
     plt.show()
     return
 
-content=txt_read("weibo.txt")
+
+
+
+content=txt_read("week2.txt")
 wb_list=get_info(content)
 f0=emo_count()
 wb_emo_list=[]
@@ -155,5 +158,15 @@ df=disntance(df)
 print(df["wb_dis"].mean())
 
 #测试画图
-plot_emo_time(df,["anger"],'SM')
+plot_emo_time(df,["anger"],'H')
 dis_plot(df,["fear"])
+
+
+g=pyecharts.charts.Geo()
+data_pair=[]
+for i in range(len(df["anger"])):
+    data_pair.append((str(i), df["anger"][i]))
+    g.add_coordinate(str(i),df["wb_x"][i],df["wb_y"][i])
+g.add("",data_pair,visual_range=[0,50],maptype="china",is_visualmap=True,visual_text_color="#000")
+g.show_config()
+g.render(path="./data/04-01中国地图.html")
